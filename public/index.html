@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp Clone - Real-time Chat</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Authentication Modal -->
+    <div id="authModal" class="modal active">
+        <div class="modal-content">
+            <div class="auth-container">
+                <div class="auth-header">
+                    <i class="fab fa-whatsapp"></i>
+                    <h1>WhatsApp Clone</h1>
+                </div>
+                
+                <!-- Login Form -->
+                <form id="loginForm" class="auth-form active">
+                    <h2>Welcome Back</h2>
+                    <div class="input-group">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="loginUsername" placeholder="Username" required>
+                    </div>
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="loginPassword" placeholder="Password" required>
+                    </div>
+                    <button type="submit" class="btn-primary">
+                        <span>Sign In</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                    <p class="auth-switch">
+                        Don't have an account? 
+                        <a href="#" id="showRegister">Sign up</a>
+                    </p>
+                </form>
+
+                <!-- Register Form -->
+                <form id="registerForm" class="auth-form">
+                    <h2>Create Account</h2>
+                    <div class="input-group">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="registerName" placeholder="Full Name" required>
+                    </div>
+                    <div class="input-group">
+                        <i class="fas fa-at"></i>
+                        <input type="text" id="registerUsername" placeholder="Username" required>
+                    </div>
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="registerPassword" placeholder="Password" required>
+                    </div>
+                    <button type="submit" class="btn-primary">
+                        <span>Create Account</span>
+                        <i class="fas fa-user-plus"></i>
+                    </button>
+                    <p class="auth-switch">
+                        Already have an account? 
+                        <a href="#" id="showLogin">Sign in</a>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Chat Application -->
+    <div id="chatApp" class="chat-app">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <!-- Sidebar Header -->
+            <div class="sidebar-header">
+                <div class="user-info">
+                    <div class="avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="user-details">
+                        <h3 id="currentUserName"></h3>
+                        <span class="status online">Online</span>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <button class="icon-btn" id="searchBtn" title="Search">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <button class="icon-btn" id="logoutBtn" title="Logout">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Search Section -->
+            <div class="search-section" id="searchSection">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="userSearchInput" placeholder="Search users...">
+                    <button class="close-search" id="closeSearch">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="search-results" id="searchResults"></div>
+            </div>
+
+            <!-- Chat List -->
+            <div class="chat-list" id="chatList">
+                <div class="no-chats">
+                    <i class="fas fa-comments"></i>
+                    <p>No conversations yet</p>
+                    <span>Search for users to start chatting</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chat Area -->
+        <div class="chat-area">
+            <!-- Welcome Screen -->
+            <div class="welcome-screen" id="welcomeScreen">
+                <div class="welcome-content">
+                    <i class="fab fa-whatsapp"></i>
+                    <h2>WhatsApp Clone</h2>
+                    <p>Send and receive messages in real-time</p>
+                    <span>Select a chat to start messaging</span>
+                </div>
+            </div>
+
+            <!-- Active Chat -->
+            <div class="active-chat" id="activeChat" style="display: none;">
+                <!-- Chat Header -->
+                <div class="chat-header">
+                    <div class="chat-info">
+                        <div class="avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="chat-details">
+                            <h3 id="activeChatName"></h3>
+                            <span class="chat-status" id="activeChatStatus">
+                                <span class="typing-indicator" id="typingIndicator" style="display: none;">
+                                    <span></span><span></span><span></span>
+                                    typing...
+                                </span>
+                                <span id="userStatus">Last seen recently</span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="chat-actions">
+                        <button class="icon-btn" title="Search in chat">
+                            <i class="fas fa-search"></i>
+                        </button>
+                        <button class="icon-btn" title="More options">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Messages Container -->
+                <div class="messages-container" id="messagesContainer">
+                    <div class="messages" id="messages"></div>
+                </div>
+
+                <!-- Message Input -->
+                <div class="message-input-container">
+                    <div class="message-input">
+                        <button class="icon-btn" title="Attach">
+                            <i class="fas fa-paperclip"></i>
+                        </button>
+                        <div class="input-wrapper">
+                            <input type="text" id="messageInput" placeholder="Type a message...">
+                            <button class="icon-btn emoji-btn" title="Emoji">
+                                <i class="fas fa-smile"></i>
+                            </button>
+                        </div>
+                        <button class="send-btn" id="sendBtn" title="Send">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div class="loading-spinner" id="loadingSpinner">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
